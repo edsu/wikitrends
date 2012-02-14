@@ -3,7 +3,7 @@ wikitrends
 
 wikitrends dumps the top 1000 most accessed English Wikipedia articles every 
 hour to a uniquely named JSON file. The script is entirely dependent on 
-statistical data made available by [Wikimedia Foundation](http://dumps.wikimedia.org/other/pagecounts-raw/).
+statistical data made available by the [Wikimedia Foundation](http://dumps.wikimedia.org/other/pagecounts-raw/).
 
 fetch.sh is a somewhat gnarly shell script that takes advantage of unix 
 command line goodness to pull down the big compressed files from Wikimedia 
