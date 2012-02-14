@@ -9,3 +9,16 @@ JSON.
 
 `30 * * * * cd /home/ed/Projects/wikitrends/; ./fetch.sh`
 
+If you're on Ubuntu or a similar Unix you'll probably have them, but you'll 
+need to have the following command line utilities available:
+
+* curl
+* gunzip
+* head
+* perl
+* python
+* sort
+
+License:
+
+Public Domain
