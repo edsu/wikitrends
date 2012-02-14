@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# collect some date information
+# collect some date info
 
 year=`date -u +%Y`
 month=`date -u +%m`
@@ -14,9 +14,9 @@ url="http://dumps.wikimedia.org/other/pagecounts-raw/$year/$year-$month/pagecoun
 # sometimes the filenames have a timestamp of 1 second instead of 0 
 # so if 0000.gz isn't there try using 0001.gz instead
 
-curl -f -s -I $url
+curl -f -s -I $url > /dev/null
 retval=$?
-if [ retval != 0 ]; then
+if [ $retval -ne 0 ]; then
     url="http://dumps.wikimedia.org/other/pagecounts-raw/$year/$year-$month/pagecounts-$year$month$day-${hour}0001.gz" 
 fi
 
