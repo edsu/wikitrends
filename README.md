@@ -18,12 +18,12 @@ generated every hour:
 If you are on Ubuntu or a similar Unix you will probably have them, but 
 double check you have the following command line utilities available to you:
 
-* curl
-* gunzip
-* head
-* perl
-* python
-* sort
+- curl
+- gunzip
+- head
+- perl
+- python
+- sort
 
 License:
 
