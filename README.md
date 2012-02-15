@@ -15,6 +15,9 @@ generated every hour:
 
 `30 * * * * cd /home/ed/Projects/wikitrends/; ./fetch.sh`
 
+Install
+-------
+
 If you are on Ubuntu or a similar Unix you will probably have them, but 
 double check you have the following command line utilities available to you:
 
@@ -25,6 +28,7 @@ double check you have the following command line utilities available to you:
 - python
 - sort
 
-License:
+License
+-------
 
 Public Domain
