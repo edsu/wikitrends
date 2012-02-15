@@ -1,6 +1,13 @@
 #!/bin/bash
 
-# collect some date info
+# fetch.sh is a shell script to run from cron that will download the latest 
+# hours page view statistics and write out the top 1000 to a JSON file
+# you will probably want to run it sufficiently after the top of the hour
+# so that the file is likely to be there, e.g.
+#
+# 30 * * * * cd /home/ed/Projects/wikitrends/; ./fetch.sh
+
+# first, collect some date info
 
 year=`date -u +%Y`
 month=`date -u +%m`
