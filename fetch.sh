@@ -22,7 +22,7 @@ fi
 
 # create a directory and filename for the JSON
 
-json_dir="$year/$month/$day"
+json_dir="data/$year/$month/$day"
 json_file="$json_dir/$hour.json"
 mkdir -p $json_dir
 
