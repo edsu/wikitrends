@@ -14,10 +14,15 @@ function load(t) {
 
   $.getJSON(path, function(data) {
     $("#data").empty().append("<h1>" + path +  "</h1>");
-    _.each(data, function(row) {
-      if (! row.page.match(/:|(Main Page)|(main page)|(404)/)) {
-        $("#data").append("<li>" + row.page + " (" + row.count + ")</li>");  
-      }
+    data = _.filter(data, includePage);
+    var topTen = _.first(data, 25);
+    _.each(topTen, function(row) {
+        $("#data").append('<li><a href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a> (' + row.count + ')</li>');  
     });
   }).complete(setTimeout(load, 2000, n));
 }
+
+function includePage(p) {
+    return ! p.page.match(/:|(Main Page)|(main page)|(404)/);
+}
+
