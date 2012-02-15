@@ -41,7 +41,7 @@ function load(t) {
         t.getHours() + 1
       );
       // if it's not in the future try to get stats for it
-      if (t < new Date()) setTimeout(load, 2000, t);
+      if (t < new Date()) setTimeout(load, 10000, t);
   });
 }
 
