@@ -27,7 +27,19 @@ function load(t) {
     var topTen = _.first(data, 25);
     if (topTen.length != 25) return;
 
-    $("header").empty().append("<h1>" + t + "</h1>");
+    var header = _.str.sprintf(
+      "%d-%02d-%02d %02d:00",
+      t.getFullYear(),
+      t.getMonth() + 1,
+      t.getDate(),
+      t.getHours()
+    );
+    $("header").fadeOut(500, function() {
+      $(this).empty();
+      $(this).append("<h1>" + header + "</h1>");
+      $(this).fadeIn(500);
+    });
+
     $("#data").empty();
     _.each(topTen, function(row) {
         $("#data").append('<li><a href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a> (' + row.count + ')</li>');  
@@ -41,7 +53,7 @@ function load(t) {
         t.getHours() + 1
       );
       // if it's not in the future try to get stats for it
-      if (t < new Date()) setTimeout(load, 10000, t);
+      if (t < new Date()) setTimeout(load, 5000, t);
   });
 }
 
