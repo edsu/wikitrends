@@ -7,8 +7,8 @@ statistical data made available by the [Wikimedia Foundation](http://dumps.wikim
 
 fetch.sh is a somewhat gnarly shell script that takes advantage of unix 
 command line goodness to pull down the big compressed files from Wikimedia 
-and sort them. jsonify.py is a simple python script that reads the output of
-fetch.sh and output the data as JSON.
+and sort them. jsonify.py is a simple python script that reformats the output
+of fetch.sh as JSON.
 
 You should be able to put this in your crontab to have the JSON files 
 generated every hour:
