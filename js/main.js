@@ -8,7 +8,7 @@ function main() {
     now.getFullYear(), 
     now.getMonth(), 
     now.getDate(), 
-    now.getHours()
+    now.getHours() - 1
   );
   load(t);
 }
