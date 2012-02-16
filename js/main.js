@@ -8,7 +8,7 @@ function main() {
     now.getFullYear(), 
     now.getMonth(), 
     now.getDate(), 
-    now.getHours() - 1
+    now.getHours()
   );
   load(t);
 }
@@ -36,7 +36,7 @@ function load(t) {
       t.getDate(),
       t.getHours()
     );
-    $("header").append("<h1>" + header + "</h1>");
+    $("header").append("<h2>" + header + "</h2>");
 
     $("#articles").empty();
     _.each(articles, function(row, i) {
