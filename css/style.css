@@ -3,7 +3,15 @@ body {
     font-size: 12pt;
 }
 
+div#content {
+    margin-top: 50px;
+}
+
 table#articles {
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    border: thin solid #eeeeee;
 }
 
 table#articles td {
@@ -22,6 +30,17 @@ tr:hover {
     font-weight: bold;
 }
 
+div#articleSummary {
+    padding: 10pt;
+    width: 250px;
+    opacity: 1;
+}
+
 div#articleSummary a {
     text-decoration: underline;
+}
+
+img.icon {
+    height: 15px;
+    vertical-align: bottom;
 }

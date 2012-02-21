@@ -3,47 +3,53 @@ $(document).ready(main);
 var gettingArticle = false;
 
 function main() {
-  var now = new Date();
-  var t = new Date(
-    now.getFullYear(), 
-    now.getMonth(), 
-    now.getDate(), 
-    now.getHours() - 1
-  );
-  load(t);
+  var t = new Date();
+  t.setHours(t.getHours() - 1);
+  loadStats(t);
 }
 
-function load(t) {
-  var path = _.str.sprintf(
+function loadStats() {
+  var now = new Date()
+  var t = new Date();
+  var hours = [];
+  t.setHours(t.getHours() - 24);
+  while (t < now) {
+    hours.push(new Date(t));
+    t.setHours(t.getHours() + 1);
+  }
+  async.map(hours, load, display);
+}
+
+function load(t, callback) {
+  var path = statsFile(t);
+  $.getJSON(path, function(data) {
+    // remove unwanted predictable pages
+    data = _.filter(data, includePage);
+    callback(null, data);
+  });
+}
+
+function display(err, stats) {
+  var lastHour = stats[stats.length - 1];
+  var articles = _.first(lastHour, 25);
+  if (articles.length != 25) return;
+
+  $("#articles").empty();
+  _.each(articles, function(row, i) {
+      $("#articles").append('<tr><td>' + (i+1) + '</td><td><a class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a> (' + row.count + ') </td><td><a href="http://en.wikipedia.org/wiki/' + row.page + '"><img class="icon" src="images/wikipedia.jpg"></a><a href="https://www.google.com/search?tbm=nws&q=' + row.page + '"><img class="icon" src="images/google.jpg"></a><a href="https://www.facebook.com/search/results.php?type=web&q=' + row.page + '"><img class="icon" src="images/facebook.jpg"></a><a href="https://twitter.com/#!/search/' + row.page + '"><img class="icon" src="images/twitter.jpg"></a></td></tr>');  
+  });
+  $("a.article").mouseover(showArticle);
+  $("a.article").mouseout(hideArticle);
+}
+
+function statsFile(t) {
+  return _.str.sprintf(
     "data/%d/%02d/%02d/%02d.json", 
     t.getUTCFullYear(), 
     t.getUTCMonth() + 1, 
     t.getUTCDate(), 
     t.getUTCHours()
   );
-
-  $.getJSON(path, function(data) {
-    // remove unwanted predictable pages
-    data = _.filter(data, includePage);
-
-    var articles = _.first(data, 25);
-    if (articles.length != 25) return;
-
-    var header = _.str.sprintf(
-      "%d-%02d-%02d %02d:00",
-      t.getFullYear(),
-      t.getMonth() + 1,
-      t.getDate(),
-      t.getHours()
-    );
-    $("header").append("<h2>" + header + "</h2>");
-
-    $("#articles").empty();
-    _.each(articles, function(row, i) {
-        $("#articles").append('<tr><td>' + (i+1) + '</td><td><a class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a> (' + row.count + ')</td></tr>');  
-    });
-    $("a.article").mouseover(showArticle);
-  });
 }
 
 function includePage(p) {
@@ -51,30 +57,29 @@ function includePage(p) {
 }
 
 function showArticle(event) {
-  hideArticle();
+  var link = $(event.target);
   var title = event.target.text;
-  var x = 250;
-  var y = event.pageY - 25;
-  $('div#articleSummary').remove();
-  $('<div id="articleSummary"></div>').appendTo("body");
+  var pos = link.position();
+  var y = pos.top - 25;
+  var x = pos.left + link.width() + 25;
   getArticleSummary(title, function(summary) {
-    $('div#articleSummary').css({
-      position: 'absolute', 
-      "top": y - 25, 
-      "opacity": 1.0,
-      "left": x,
-      "width": "500px",
-      "padding-left": "10px",
-      "padding-right": "10px",
-      "border": "thin solid #eeeeee",
-      "background-color": "white"
-    });
-    $('div#articleSummary').append(summary);
+    var s = $('div#articleSummary');
+    s.empty().append(summary);
+    s.css(
+      {
+        "position": "absolute",
+        "top": y, 
+        "left": x,
+        "border": "thin solid #eeeeee",
+        "background-color": "#fdfdfd"
+      }
+    );
+    s.show();
   });
 }
 
 function hideArticle(event) {
-  $('div#articleSummary').remove();
+  $('div#articleSummary').hide();
 }
 
 function getArticleSummary(page, callback) {
@@ -103,4 +108,3 @@ function getArticleSummary(page, callback) {
     }
   });
 }
-
