@@ -10,15 +10,20 @@ data dumps from the
 Install
 -------
 
-If you are on Ubuntu or a similar Unix you will probably have them, but 
-double check you have the following command line utilities available to you:
-curl, gunzip, head, perl, python, sort.
+If you are on Ubuntu or a similar Unix you will already have these, but 
+double check you have the following command line utilities available to you 
+for the fetch.sh script to run: curl, gunzip, head, perl, python, sort.
 
-Put fetch.sh in your crontab:
+Next put fetch.sh in your crontab:
 
     30 * * * * cd /home/ed/Projects/wikitrends/; ./fetch.sh
 
-Make your wikitrends directory web accessible. For example w/ Apache:
+Then make your wikitrends directory web accessible. For example w/ Apache first
+symlink your document directory to your git project directory:
+
+    ln -s /home/ed/Projects/wikitrends /var/www/inkdroid.org/wikitrends
+
+And then modify your Apache configuration allowing it to access the directory:
 
     <Directory /var/www/inkdroid.org/wikitrends>
         Order allow,deny
