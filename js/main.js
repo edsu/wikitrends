@@ -37,9 +37,9 @@ function display(err, stats) {
 
   $("tr.article").remove();
   _.each(articles, function(row, i) {
-      var prevHourRank = prevHour.indexOf(row.page);
+      var prevHourRank = prevHour.indexOf(row.page) + 1;
       // if it wasn't in the top 25 in the last hour forgetaboutit
-      if (prevHourRank > 25 || prevHourRank == -1) {
+      if (prevHourRank > 25 || prevHourRank == 0) {
           prevHourRank = "&nbsp;";
       }
       // yeah, maybe this should be a template of some kind eh?
