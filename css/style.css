@@ -4,7 +4,7 @@ body {
 }
 
 header {
-    font-size: 18pt;
+    font-size: 20pt;
     text-align: center;
     display: block;
 }
@@ -25,6 +25,7 @@ table#articles {
 table th {
     font-size: 10pt;
     text-align: left;
+    vertical-align: bottom;
 }
 
 th.rank {
