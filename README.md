@@ -12,17 +12,11 @@ Install
 
 If you are on Ubuntu or a similar Unix you will probably have them, but 
 double check you have the following command line utilities available to you:
-
-  * curl
-  * gunzip
-  * head
-  * perl
-  * python
-  * sort
+curl, gunzip, head, perl, python, sort.
 
 Put fetch.sh in your crontab:
 
-  30 * * * * cd /home/ed/Projects/wikitrends/; ./fetch.sh
+    30 * * * * cd /home/ed/Projects/wikitrends/; ./fetch.sh
 
 Make your wikitrends directory web accessible. For example w/ Apache:
 
