@@ -3,19 +3,52 @@ body {
     font-size: 12pt;
 }
 
+header {
+    font-size: 18pt;
+    text-align: center;
+    display: block;
+}
+
 div#content {
-    margin-top: 50px;
+    margin-top: 15px;
 }
 
 table#articles {
     margin-left: auto;
     margin-right: auto;
-    width: 350px;
+    width: 475px;
+    padding: 5px;
+    background-color: #fcfcfc;
     border: thin solid #eeeeee;
+}
+
+table th {
+    font-size: 10pt;
+    text-align: left;
+}
+
+th.rank {
+    width: 40px;
+}
+
+th.prevRank {
+    width: 40px;
+}
+
+th.views {
+    width: 40px;
+}
+
+th.article {
+}
+
+th.social {
+    width: 75px;
 }
 
 table#articles td {
 }
+
 
 a { 
     text-decoration: none;
@@ -32,7 +65,7 @@ tr:hover {
 
 div#articleSummary {
     padding: 10pt;
-    width: 250px;
+    width: 270px;
     opacity: 1;
 }
 
@@ -43,4 +76,16 @@ div#articleSummary a {
 img.icon {
     height: 15px;
     vertical-align: bottom;
+}
+
+footer {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    display: block;
+    font-size: 14pt;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: underline;
 }

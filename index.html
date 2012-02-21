@@ -9,16 +9,45 @@
         <script src="js/main.js"></script>
         <link href='http://fonts.googleapis.com/css?family=Neuton' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="css/style.css">
+
+        <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-29373003-1']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); 
+          ga.type = 'text/javascript'; 
+          ga.async = true; 
+          ga.src = ('https:' == document.location.protocol ?  'https://ssl' : 'http://www') + '.google-analytics.com/ga.js'; 
+          var s = document.getElementsByTagName('script')[0]; 
+          s.parentNode.insertBefore(ga, s);
+        })();
+        </script>
+
     </head>
     <body>
         <a href="http://github.com/edsu/wikitrends"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub" /></a> 
 
+        <header>Top 25 Wikipedia Page Views</header>
+
         <div id="content">
         <table id="articles">
+            <tr>
+                <th class="rank">This<br>Hour</th>
+                <th class="prevRank">Last<br>Hour</th>
+                <th class="views">Views</th>
+                <th class="article">Article</th>
+                <th class="social"></th>
+            </tr>
         </table>
 
         <div id="articleSummary">
         </div>
+
+        <footer>
+        This page, the <a href="http://github.com/edsu/wikitrends">code that generated it</a> and the underlying <a href="data">JSON data</a> are available under the <a href="http://creativecommons.org/publicdomain/zero/1.0/">CC0</a> license.
+        </footer>
+
         </div>
 
     </body>

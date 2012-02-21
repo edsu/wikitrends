@@ -12,7 +12,7 @@ function loadStats() {
   var now = new Date()
   var t = new Date();
   var hours = [];
-  t.setHours(t.getHours() - 24);
+  t.setHours(t.getHours() - 2);
   while (t < now) {
     hours.push(new Date(t));
     t.setHours(t.getHours() + 1);
@@ -31,12 +31,19 @@ function load(t, callback) {
 
 function display(err, stats) {
   var lastHour = stats[stats.length - 1];
+  var prevHour = _.pluck(stats[stats.length - 2], "page");
   var articles = _.first(lastHour, 25);
   if (articles.length != 25) return;
 
-  $("#articles").empty();
+  $("tr.article").remove();
   _.each(articles, function(row, i) {
-      $("#articles").append('<tr><td>' + (i+1) + '</td><td><a class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a> (' + row.count + ') </td><td><a href="http://en.wikipedia.org/wiki/' + row.page + '"><img class="icon" src="images/wikipedia.jpg"></a><a href="https://www.google.com/search?tbm=nws&q=' + row.page + '"><img class="icon" src="images/google.jpg"></a><a href="https://www.facebook.com/search/results.php?type=web&q=' + row.page + '"><img class="icon" src="images/facebook.jpg"></a><a href="https://twitter.com/#!/search/' + row.page + '"><img class="icon" src="images/twitter.jpg"></a></td></tr>');  
+      var prevHourRank = prevHour.indexOf(row.page);
+      // if it wasn't in the top 25 in the last hour forgetaboutit
+      if (prevHourRank > 25 || prevHourRank == -1) {
+          prevHourRank = "&nbsp;";
+      }
+      // yeah, maybe this should be a template of some kind eh?
+      $("#articles").append('<tr class="article"><td>' + (i+1) + '</td><td>' + prevHourRank + '</td><td>' + row.count + '</td><td><a target="_blank" class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a></td><td><a target="_blank" href="http://en.wikipedia.org/wiki/' + row.page + '"><img class="icon" src="images/wikipedia.jpg"></a><a target="_blank" href="https://twitter.com/#!/search/realtime/' + row.page + '"><img class="icon" src="images/twitter.jpg"></a><a target="_blank" href="https://www.google.com/search?tbs=qdr:h&q=' + row.page + '"><img class="icon" src="images/google.jpg"></a><a target="_blank" href="https://www.facebook.com/search/results.php?type=web&q=' + row.page + '"><img class="icon" src="images/facebook.jpg"></a></td></tr>');  
   });
   $("a.article").mouseover(showArticle);
   $("a.article").mouseout(hideArticle);
@@ -64,7 +71,8 @@ function showArticle(event) {
   var x = pos.left + link.width() + 25;
   getArticleSummary(title, function(summary) {
     var s = $('div#articleSummary');
-    s.empty().append(summary);
+    s.empty();
+    s.append(summary);
     s.css(
       {
         "position": "absolute",
