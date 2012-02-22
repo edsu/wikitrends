@@ -42,11 +42,15 @@ function display(err, stats) {
       if (prevHourRank > 25 || prevHourRank == 0) {
           prevHourRank = "&nbsp;";
       }
-      // yeah, maybe this should be a template of some kind eh?
-      $("#articles").append('<tr class="article"><td>' + (i+1) + '</td><td>' + prevHourRank + '</td><td>' + row.count + '</td><td><a target="_blank" class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a></td><td><a target="_blank" href="http://en.wikipedia.org/wiki/' + row.page + '"><img class="icon" src="images/wikipedia.jpg"></a><a target="_blank" href="https://twitter.com/#!/search/realtime/' + row.page + '"><img class="icon" src="images/twitter.jpg"></a><a target="_blank" href="https://www.google.com/search?tbs=qdr:h&q=' + row.page + '"><img class="icon" src="images/google.jpg"></a><a target="_blank" href="https://www.facebook.com/search/results.php?type=web&q=' + row.page + '"><img class="icon" src="images/facebook.jpg"></a></td></tr>');  
+      var viewsPerSec = _.str.sprintf("%0.2f", (row.count / 60 / 60));
+      // yeah, maybe this should be a template of some kind eh? /me shrugs
+      $("#articles").append('<tr class="article"><td>' + (i+1) + '</td><td>' + prevHourRank + '</td><td title="' + viewsPerSec + ' page views per second">' + row.count + '</td><td><a target="_blank" class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a></td><td><a target="_blank" href="http://en.wikipedia.org/wiki/' + row.page + '"><img class="icon" src="images/wikipedia.jpg"></a><a target="_blank" href="https://twitter.com/#!/search/realtime/' + row.page + '"><img class="icon" src="images/twitter.jpg"></a><a target="_blank" href="https://www.google.com/search?tbs=qdr:h&q=' + row.page + '"><img class="icon" src="images/google.jpg"></a><a target="_blank" href="https://www.facebook.com/search/results.php?type=web&q=' + row.page + '"><img class="icon" src="images/facebook.jpg"></a></td></tr>');  
   });
   $("a.article").mouseover(showArticle);
   $("a.article").mouseout(hideArticle);
+  $("td.viewCount").hover(function() { 
+    alert($(this).text());
+  });
 }
 
 function statsFile(t) {
