@@ -75,7 +75,7 @@ function showArticle(event) {
   var y = pos.top - 25;
   var x = pos.left + link.width() + 25;
   getArticleSummary(title, function(summary) {
-    if (gettingArticle) return;
+    if (! gettingArticle) return;
     var s = $('div#articleSummary');
     s.empty();
     s.append(summary);
