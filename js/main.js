@@ -47,8 +47,7 @@ function display(err, stats) {
       // yeah, maybe this should be a template of some kind eh? /me shrugs
       $("#articles").append('<tr class="article"><td class="rank">' + (i+1) + '</td><td class="prevRank">' + prevHourRank + '</td><td class="views" title="that\'s ' + viewsPerSec + ' views per second">' + row.count + '</td><td><a target="_blank" class="article" href="http://en.wikipedia.org/wiki/' + row.page + '">' + row.page +'</a></td><td class="social"><a title="View Wikipedia Article" target="_blank" href="http://en.wikipedia.org/wiki/' + row.page + '"><img class="icon" src="images/wikipedia.jpg"></a><a title="Twitter Real Time Search" target="_blank" href="https://twitter.com/#!/search/realtime/' + row.page + '"><img class="icon" src="images/twitter.jpg"></a><a title="Google Real Time Search" target="_blank" href="https://www.google.com/search?tbs=qdr:h&q=' + row.page + '"><img class="icon" src="images/google.jpg"></a><a title="Facebook Search" target="_blank" href="https://www.facebook.com/search/results.php?type=web&q=' + row.page + '"><img class="icon" src="images/facebook.jpg"></a></td></tr>');  
   });
-  $("a.article").mouseover(showArticle);
-  $("a.article").mouseout(hideArticle);
+  $("a.article").hoverIntent(showArticleSummary, hideArticleSummary);
   $("td.viewCount").hover(function() { 
     alert($(this).text());
   });
@@ -68,14 +67,13 @@ function includePage(p) {
   return ! p.page.match(/:|(Main Page)|(main page)|(404)|(.html)|(.php)|(Wiki)/);
 }
 
-function showArticle(event) {
+function showArticleSummary(event) {
   var link = $(event.target);
   var title = event.target.text;
   var pos = link.position();
   var y = pos.top - 25;
   var x = pos.left + link.width() + 25;
   getArticleSummary(title, function(summary) {
-    if (! gettingArticle) return;
     var s = $('div#articleSummary');
     s.empty();
     s.append(summary);
@@ -92,32 +90,38 @@ function showArticle(event) {
   });
 }
 
-function hideArticle(event) {
+function hideArticleSummary(event) {
+  gettingArticle = false;
   $('div#articleSummary').hide();
 }
 
-function getArticleSummary(page, callback) {
+function getArticleSummary(title, callback) {
+  // only fetch one at a time
   if (gettingArticle) return;
-  gettingArticle = true;
-  title = page.replace(' ','_');
+  gettingArticle = title;
+
+  escaped_title = title.replace(' ','_');
   $.ajax({
     url: 'http://en.wikipedia.org/w/api.php',
     data: {
       action: 'parse',
       prop: 'text',
-      page: title,
+      page: escaped_title,
       format: 'json'
     },
     dataType: 'jsonp',
     success: function(data) {
-      wikipage = $("<div>"+data.parse.text['*']+"<div>").children('p:first');
-      wikipage.find('sup').remove();
-      wikipage.find('a').each(function() {
+      summary = $("<div>"+data.parse.text['*']+"<div>").children('p:first');
+      summary.find('sup').remove();
+      summary.find('a').each(function() {
         $(this)
           .attr('href', 'http://en.wikipedia.org'+$(this).attr('href'))
           .attr('target','wikipedia');
       });
-      callback(wikipage);
+      // only display most recently fetched article
+      if (data.parse.title === gettingArticle) callback(summary);
+    },
+    complete: function(jqXHR, textStatus) {
       gettingArticle = false;
     }
   });
